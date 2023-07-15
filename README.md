@@ -1,6 +1,6 @@
 # Java Swing Sorting Visualization
 
-This project provides a visual representation of various sorting algorithms implemented using Java Swing. It allows users to observe how different sorting algorithms work by visually tracking the changes made to the elements during the sorting process.
+This project provides a visual representation of sorting algorithms implemented using Java Swing. It allows users to observe how different sorting algorithms work by visually tracking the changes made to the elements during the sorting process.
 
 ## Sorting Algorithms
 
