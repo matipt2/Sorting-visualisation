@@ -19,7 +19,7 @@ public class SortingVisualisation extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.clearRect(0, 0, getWidth(), getHeight()); // Clear the panel
+        g.clearRect(0, 0, getWidth(), getHeight());
         drawArray(g);
     }
 
@@ -141,4 +141,9 @@ public class SortingVisualisation extends JPanel {
         array[i] = array[j];
         array[j] = temp;
     }
+
+    public int mergeSort(){
+        return 0;
+    }
+
 }

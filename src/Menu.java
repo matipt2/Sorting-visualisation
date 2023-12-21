@@ -1,12 +1,14 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.Flow;
 import javax.swing.*;
 
 public class Menu implements ActionListener {
     private final JButton bubbleSortButton;
     private final JButton insertionSortButton;
     private final JButton quickSortButton;
+    private final JButton mergeSort;
     private final JButton shuffleButton;
 
     public Menu() {
@@ -15,24 +17,30 @@ public class Menu implements ActionListener {
         frame.getContentPane().setLayout(new GridBagLayout());
         JLabel menuLabel = new JLabel();
 
-        JPanel buttonPanel = new JPanel(new CardLayout(CardLayout,100, 50));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 15));
+        buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
         bubbleSortButton = new JButton();
         insertionSortButton = new JButton();
         quickSortButton = new JButton();
+        mergeSort = new JButton();
         shuffleButton = new JButton();
 
-        bubbleSortButton.setPreferredSize(new Dimension(150, 150));
-        insertionSortButton.setPreferredSize(new Dimension(150, 150));
-        quickSortButton.setPreferredSize(new Dimension(150, 150));
-        shuffleButton.setPreferredSize(new Dimension(150, 150));
+        bubbleSortButton.setPreferredSize(new Dimension(100, 70));
+        insertionSortButton.setPreferredSize(new Dimension(100, 70));
+        quickSortButton.setPreferredSize(new Dimension(100, 70));
+        mergeSort.setPreferredSize(new Dimension(100, 70));
+        shuffleButton.setPreferredSize(new Dimension(100, 70));
 
         buttonPanel.add(bubbleSortButton);
         buttonPanel.add(insertionSortButton);
         buttonPanel.add(quickSortButton);
+        buttonPanel.add(mergeSort);
         buttonPanel.add(shuffleButton);
         menuLabel.setForeground(Color.BLACK);
         ImageIcon menuLogo = new ImageIcon("images/menu1.jpg");
         menuLabel.setIcon(new ImageIcon(menuLogo.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
+
+
         bubbleSortButton.addActionListener(this);
         insertionSortButton.addActionListener(this);
         quickSortButton.addActionListener(this);
@@ -41,6 +49,9 @@ public class Menu implements ActionListener {
         bubbleSortButton.setText("<html><br>Bubble sort</html>");
         insertionSortButton.setText("<html><br>Insertion sort</html>");
         quickSortButton.setText("<html><br>Quick sort</html>");
+        mergeSort.setText("<html><br>Merge sort</html>");
+        shuffleButton.setText("<html><br>Shuffle</html>");
+
 
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -54,7 +65,7 @@ public class Menu implements ActionListener {
         frame.getContentPane().add(menuLabel, gbc);
         gbc.gridy = 1;
         gbc.weighty = 1.0;
-        buttonPanel.setPreferredSize(new Dimension(800, 300));
+        buttonPanel.setPreferredSize(new Dimension(800, 150));
         buttonPanel.setBorder(BorderFactory.createTitledBorder("Pick one of these sorting algorithms"));
         frame.getContentPane().add(buttonPanel, gbc);
         frame.setSize(1280, 720);
@@ -73,8 +84,4 @@ public class Menu implements ActionListener {
         }
         sortingVisualisation.repaint();
     }
-
-
-
-
 }
