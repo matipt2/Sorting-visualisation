@@ -76,17 +76,14 @@ public class SortingVisualisation extends JPanel {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    repaint(); // Update the visualization after each swap
+                    repaint();
                 }
             }
             n--;
         } while (swapped);
-        repaint(); // Update the visualization after sorting is complete
+        repaint();
     }
 
-    public boolean isSortingInProgress() {
-        return sortingInProgress;
-    }
 
     public void insertionSort() {
         int i = 1;
