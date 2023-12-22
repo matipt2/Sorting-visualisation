@@ -44,6 +44,8 @@ public class Menu implements ActionListener {
         bubbleSortButton.addActionListener(this);
         insertionSortButton.addActionListener(this);
         quickSortButton.addActionListener(this);
+        mergeSort.addActionListener(this);
+        shuffleButton.addActionListener(this);
 
 
         bubbleSortButton.setText("<html><br>Bubble sort</html>");
