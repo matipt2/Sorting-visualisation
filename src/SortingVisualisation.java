@@ -11,7 +11,12 @@ public class SortingVisualisation extends JPanel {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1280, 720);
-        frame.getContentPane().add(this);
+
+        Menu menu = new Menu(this);
+        frame.getContentPane().setLayout(new BorderLayout());
+        frame.getContentPane().add(this, BorderLayout.CENTER);
+        frame.getContentPane().add(menu, BorderLayout.SOUTH);
+
         frame.setVisible(true);
         fillArray();
     }
@@ -29,36 +34,54 @@ public class SortingVisualisation extends JPanel {
         for (int i = 0; i < array.length; i++) {
             array[i] = random.nextInt(100);
         }
+        repaint();
     }
 
     private void drawArray(Graphics g) {
         int barWidth = getWidth() / array.length;
         int maxValue = Arrays.stream(array).max().orElse(0);
+
         for (int i = 0; i < array.length; i++) {
             int barHeight = (int) ((double) array[i] / maxValue * getHeight());
             int x = i * barWidth;
             int y = getHeight() - barHeight;
+
+            Color color = getColorForValue(array[i], maxValue);
+            g.setColor(color);
+
             g.fillRect(x, y, barWidth, barHeight);
         }
     }
 
-    public void startSorting1() {
+    private Color getColorForValue(int value, int maxValue) {
+        int blue = (int) ((double) value / maxValue * 150);
+        int lightBlue = Math.min(blue + 10, 255);
+        return new Color(0, 0, lightBlue);
+    }
+
+    public void doBubbleSort() {
         sortingInProgress = true;
         bubbleSort();
         sortingInProgress = false;
     }
 
-    public void startSorting2() {
+    public void doInsertionSort() {
         sortingInProgress = true;
         insertionSort();
         sortingInProgress = false;
     }
 
-    public void startSorting3() {
+    public void doQuickSort() {
         sortingInProgress = true;
         quickSort(0, array.length - 1);
         sortingInProgress = false;
     }
+    public void doMergeSort() {
+        sortingInProgress = true;
+        mergeSort(0, array.length - 1);
+        sortingInProgress = false;
+    }
+
 
     private void bubbleSort() {
         boolean swapped;
@@ -142,8 +165,54 @@ public class SortingVisualisation extends JPanel {
         array[j] = temp;
     }
 
-    public int mergeSort(){
-        return 0;
+
+    public void mergeSort(int left, int right) {
+        if (left < right) {
+            int mid = left + (right - left) / 2;
+
+            mergeSort(left, mid);
+            mergeSort(mid + 1, right);
+
+            merge(left, mid, right);
+            repaint();
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
+    private void merge(int left, int mid, int right) {
+        int n1 = mid - left + 1;
+        int n2 = right - mid;
+
+        int[] leftArray = Arrays.copyOfRange(array, left, left + n1);
+        int[] rightArray = Arrays.copyOfRange(array, mid + 1, mid + 1 + n2);
+
+        int i = 0, j = 0, k = left;
+        while (i < n1 && j < n2) {
+            if (leftArray[i] <= rightArray[j]) {
+                array[k] = leftArray[i];
+                i++;
+            } else {
+                array[k] = rightArray[j];
+                j++;
+            }
+            k++;
+        }
+
+        while (i < n1) {
+            array[k] = leftArray[i];
+            i++;
+            k++;
+        }
+
+        while (j < n2) {
+            array[k] = rightArray[j];
+            j++;
+            k++;
+        }
+    }
 }
+

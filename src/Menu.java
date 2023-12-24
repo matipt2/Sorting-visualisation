@@ -1,89 +1,78 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.Flow;
 import javax.swing.*;
+import javax.swing.JOptionPane;
 
-public class Menu implements ActionListener {
-    private final JButton bubbleSortButton;
-    private final JButton insertionSortButton;
-    private final JButton quickSortButton;
-    private final JButton mergeSort;
-    private final JButton shuffleButton;
+public class Menu extends JPanel implements ActionListener {
+    private SortingVisualisation sortingVisualisation;
 
-    public Menu() {
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setLayout(new GridBagLayout());
-        JLabel menuLabel = new JLabel();
+    public Menu(SortingVisualisation sortingVisualisation) {
+        this.sortingVisualisation = sortingVisualisation;
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 15));
-        buttonPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        bubbleSortButton = new JButton();
-        insertionSortButton = new JButton();
-        quickSortButton = new JButton();
-        mergeSort = new JButton();
-        shuffleButton = new JButton();
+        setLayout(new FlowLayout(FlowLayout.CENTER, 15, 15));
 
-        bubbleSortButton.setPreferredSize(new Dimension(100, 70));
-        insertionSortButton.setPreferredSize(new Dimension(100, 70));
-        quickSortButton.setPreferredSize(new Dimension(100, 70));
-        mergeSort.setPreferredSize(new Dimension(100, 70));
-        shuffleButton.setPreferredSize(new Dimension(100, 70));
-
-        buttonPanel.add(bubbleSortButton);
-        buttonPanel.add(insertionSortButton);
-        buttonPanel.add(quickSortButton);
-        buttonPanel.add(mergeSort);
-        buttonPanel.add(shuffleButton);
-        menuLabel.setForeground(Color.BLACK);
-        ImageIcon menuLogo = new ImageIcon("images/menu1.jpg");
-        menuLabel.setIcon(new ImageIcon(menuLogo.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT)));
-
+        JButton bubbleSortButton = new JButton("Bubble sort");
+        JButton insertionSortButton = new JButton("Insertion sort");
+        JButton quickSortButton = new JButton("Quick sort");
+        JButton mergeSortButton = new JButton("Merge sort");
+        JButton shuffleButton = new JButton("Shuffle");
 
         bubbleSortButton.addActionListener(this);
         insertionSortButton.addActionListener(this);
         quickSortButton.addActionListener(this);
-        mergeSort.addActionListener(this);
+        mergeSortButton.addActionListener(this);
         shuffleButton.addActionListener(this);
 
-
-        bubbleSortButton.setText("<html><br>Bubble sort</html>");
-        insertionSortButton.setText("<html><br>Insertion sort</html>");
-        quickSortButton.setText("<html><br>Quick sort</html>");
-        mergeSort.setText("<html><br>Merge sort</html>");
-        shuffleButton.setText("<html><br>Shuffle</html>");
-
-
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.fill = GridBagConstraints.NONE;
-
-        frame.getContentPane().add(menuLabel, gbc);
-        gbc.gridy = 1;
-        gbc.weighty = 1.0;
-        buttonPanel.setPreferredSize(new Dimension(800, 150));
-        buttonPanel.setBorder(BorderFactory.createTitledBorder("Pick one of these sorting algorithms"));
-        frame.getContentPane().add(buttonPanel, gbc);
-        frame.setSize(1280, 720);
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
+        add(bubbleSortButton);
+        add(insertionSortButton);
+        add(quickSortButton);
+        add(mergeSortButton);
+        add(shuffleButton);
     }
 
+
+
+
+    @Override
     public void actionPerformed(ActionEvent e) {
-        SortingVisualisation sortingVisualisation = new SortingVisualisation();
-        if (e.getSource() == bubbleSortButton) {
-            new Thread(sortingVisualisation::startSorting1).start();
-        } else if (e.getSource() == insertionSortButton) {
-            new Thread(sortingVisualisation::startSorting2).start();
-        } else if (e.getSource() == quickSortButton) {
-            new Thread(sortingVisualisation::startSorting3).start();
+        sortingVisualisation.fillArray();
+
+        long startTime = System.currentTimeMillis();
+
+        if (e.getActionCommand().equals("Bubble sort")) {
+            new Thread(() -> {
+                sortingVisualisation.doBubbleSort();
+                long endTime = System.currentTimeMillis();
+                long elapsedTime = endTime - startTime;
+                System.out.println("Bubble Sort Time: " + elapsedTime + " milliseconds");
+                JOptionPane.showMessageDialog(null, "Bubble Sort Time: " + elapsedTime + " milliseconds");
+            }).start();
+        } else if (e.getActionCommand().equals("Insertion sort")) {
+            new Thread(() -> {
+                sortingVisualisation.doInsertionSort();
+                long endTime = System.currentTimeMillis();
+                long elapsedTime = endTime - startTime;
+                System.out.println("Insertion Sort Time: " + elapsedTime + " milliseconds");
+                JOptionPane.showMessageDialog(null, "Insertion Sort Time: " + elapsedTime + " milliseconds");
+            }).start();
+        } else if (e.getActionCommand().equals("Quick sort")) {
+            new Thread(() -> {
+                sortingVisualisation.doQuickSort();
+                long endTime = System.currentTimeMillis();
+                long elapsedTime = endTime - startTime;
+                System.out.println("Quick Sort Time: " + elapsedTime + " milliseconds");
+                JOptionPane.showMessageDialog(null, "Quick Sort Time: " + elapsedTime + " milliseconds");
+            }).start();
+        } else if (e.getActionCommand().equals("Merge sort")) {
+            new Thread(() -> {
+                sortingVisualisation.doMergeSort();
+                long endTime = System.currentTimeMillis();
+                long elapsedTime = endTime - startTime;
+                System.out.println("Merge Sort Time: " + elapsedTime + " milliseconds");
+                JOptionPane.showMessageDialog(null, "Merge Sort Time: " + elapsedTime + " milliseconds");
+            }).start();
         }
-        sortingVisualisation.repaint();
     }
+
 }
